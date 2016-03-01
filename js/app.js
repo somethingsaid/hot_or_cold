@@ -66,6 +66,13 @@ function newGame() {
 	console.log("Last difference reset to: " + lastDifference);
 }
 
+// End game by preventing additional user input
+function endGame() {
+    // Disable guess and input fields
+    document.getElementById("guessButton").disabled = true;
+    document.getElementById("userGuess").disabled = true;
+}
+
 // Perform check on user guess
 function validateGuess(guess) {
 	// Invalid guesses
@@ -118,10 +125,4 @@ function validateGuess(guess) {
     guessCount += 1;
     document.getElementById("count").innerHTML = guessCount;
     return feedback;
-}
-
-function endGame() {
-    // Disable guess and input fields
-    document.getElementById("guessButton").disabled = true;
-    document.getElementById("userGuess").disabled = true;
 }
