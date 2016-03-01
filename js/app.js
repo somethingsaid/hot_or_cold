@@ -1,6 +1,5 @@
-
 $(document).ready(function(){
-	
+    newGame();
 	/*--- Display information modal box ---*/
   	$(".what").click(function(){
     	$(".overlay").fadeIn(1000);
@@ -12,8 +11,20 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
 
-  	/*--- Getting user's guess when they click Guess button ---*/
+  	/*--- User clicks new game ---*/
+    $("a.new").click(function() {
+    	newGame();
+    });
 
+  	/*--- Getting user's guess when they click Guess button ---*/
+  	$("#guessButton").click(function(e) {
+  		e.preventDefault(); 
+  		    //without this line, page refreshes when user clicks 
+  		    //Guess button
+  		userGuess = +$("#userGuess").val();
+  		console.log("user\'s guess is: " + userGuess);
+  		$("#feedback").text(validateGuess(userGuess));
+  	});
 });
 /*--- Initialize global variables ---*/
 /*--- this block onwards might have to move to the top of file ---*/
@@ -31,15 +42,25 @@ function setSecretNum() {
 // Starting a new game
 function newGame() {
 	// reset global variables
-	getNum();
+	setSecretNum();
 	guessCount = 0;
 	feedback = '';
 	//details
+	console.log("Starting new game");
+	console.log("New random number: " + secretNum);
+	console.log("Guess count reset to: " + guessCount);
+	console.log("Feedback reset to: " + feedback);
 }
 
-// Get user input and perform hygiene check
-function getGuess() {
-
+// Perform check on user guess
+function validateGuess(guess) {
+    if ((isNaN(guess)) || (guess % 1 > 0) || (guess <= 0)) {
+        feedback = "Enter positive integers only";
+    }
+    else {
+    	feedback = "OK";
+    }
+    return feedback;
 }
 
 // Generating feedback (Hot or Cold)
