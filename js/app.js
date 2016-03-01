@@ -124,5 +124,9 @@ function validateGuess(guess) {
     // Advance guess count regardless of invalid guesses
     guessCount += 1;
     document.getElementById("count").innerHTML = guessCount;
+    var ul = document.getElementById("guessList");
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(guess));
+    ul.appendChild(li);
     return feedback;
 }
