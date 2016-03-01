@@ -31,6 +31,7 @@ $(document).ready(function(){
 var secretNum = 0;
 var guessCount = 0;
 var userGuess = 0;
+var lastDifference = 0;
 var feedback = '';
 
 /*--- Functions ---*/
@@ -44,27 +45,79 @@ function newGame() {
 	// reset global variables
 	setSecretNum();
 	guessCount = 0;
+	lastDifference = 0;
 	feedback = '';
-	//details
-	console.log("Starting new game");
+
+	// reset fields and prompts
+	document.getElementById("guessButton").disabled = false;
+    document.getElementById("userGuess").disabled = false;
+    document.getElementById('feedback').innerHTML = 'Make your Guess!';
+    document.getElementById('count').innerHTML = guessCount;
+
+	// details used for debugging
+	console.log("******************\nStarting new game\n******************");
 	console.log("New random number: " + secretNum);
 	console.log("Guess count reset to: " + guessCount);
 	console.log("Feedback reset to: " + feedback);
+	console.log("Last difference reset to: " + lastDifference);
 }
 
 // Perform check on user guess
 function validateGuess(guess) {
+	// Invalid guesses
     if ((isNaN(guess)) || (guess % 1 > 0) || (guess <= 0)) {
-        feedback = "Enter positive integers only";
+        feedback = "Enter positive integers only.";
     }
+    // Check valid guesses
     else {
-    	feedback = "OK";
+    	// First guess of the game
+    	if (lastDifference == 0) {
+    		console.log("first guess!");
+    	    lastDifference = Math.abs(secretNum - guess);
+    	    if (lastDifference > 50) {
+    	    	feedback = 'Ice Cold.';
+    	    }
+    	    else if (lastDifference > 25) {
+    	    	feedback = 'Cold.';
+    	    }
+    	    else if (lastDifference > 15) {
+    	    	feedback = 'Warm.';
+    	    }
+    	    else if (lastDifference > 0) {
+    	    	feedback ='Hot.';
+    	    }
+    	    else {
+    	    	feedback = 'Got it on the first try! Click NEW GAME to play again.';
+    	    	endGame();
+    	    }
+    	}
+    	// Subsequent guesses
+
+    	else {
+    	    if (Math.abs(secretNum - guess) > lastDifference) { 
+    	        feedback = 'Colder.';
+    	        lastDifference = Math.abs(secretNum - guess);
+    	    }
+    	    else if (Math.abs(secretNum - guess) > 0) {
+    	    	feedback = 'Hotter.';
+    	        lastDifference = Math.abs(secretNum - guess);
+    	    }
+    	    else {
+    	    	feedback = 'You got it! Click NEW GAME to play again.';
+    	    	endGame();
+    	    }
+
+    	}
     }
+
+    // Advance guess count regardless of invalid guesses
+    guessCount += 1;
+    document.getElementById("count").innerHTML = guessCount;
     return feedback;
 }
 
-// Generating feedback (Hot or Cold)
-function feedback(answer, guess) {
-    //if () {
-    //}
+function endGame() {
+    // Disable guess and input fields
+    document.getElementById("guessButton").disabled = true;
+    document.getElementById("userGuess").disabled = true;
 }
