@@ -34,10 +34,14 @@ var userGuess = 0;
 var lastDifference = 0;
 var feedback = '';
 
+// change this to whatever you like 
+var minNum = 1;
+var maxNum = 100;
+
 /*--- Functions ---*/
 // Generate random number between 1 and 100 (inclusive)
 function setSecretNum() {
-	secretNum = Math.floor(Math.random() * (100)) + 1;
+	secretNum = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 }
 
 // Starting a new game
@@ -51,7 +55,7 @@ function newGame() {
 	// reset fields and prompts
 	document.getElementById("guessButton").disabled = false;
     document.getElementById("userGuess").disabled = false;
-    document.getElementById('feedback').innerHTML = 'Make your Guess!';
+    document.getElementById('feedback').innerHTML = 'Make your Guess! ' + minNum + ' to ' + maxNum;
     document.getElementById('count').innerHTML = guessCount;
 
 	// details used for debugging
@@ -75,16 +79,16 @@ function validateGuess(guess) {
     		console.log("first guess!");
     	    lastDifference = Math.abs(secretNum - guess);
     	    if (lastDifference > 50) {
-    	    	feedback = 'Ice Cold.';
+    	    	feedback = 'Ice Cold';
     	    }
     	    else if (lastDifference > 25) {
-    	    	feedback = 'Cold.';
+    	    	feedback = 'Cold';
     	    }
     	    else if (lastDifference > 15) {
-    	    	feedback = 'Warm.';
+    	    	feedback = 'Warm';
     	    }
     	    else if (lastDifference > 0) {
-    	    	feedback ='Hot.';
+    	    	feedback ='Hot';
     	    }
     	    else {
     	    	feedback = 'Got it on the first try! Click NEW GAME to play again.';
@@ -95,11 +99,11 @@ function validateGuess(guess) {
 
     	else {
     	    if (Math.abs(secretNum - guess) > lastDifference) { 
-    	        feedback = 'Colder.';
+    	        feedback = 'Colder';
     	        lastDifference = Math.abs(secretNum - guess);
     	    }
     	    else if (Math.abs(secretNum - guess) > 0) {
-    	    	feedback = 'Hotter.';
+    	    	feedback = 'Hotter';
     	        lastDifference = Math.abs(secretNum - guess);
     	    }
     	    else {
