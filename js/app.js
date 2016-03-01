@@ -15,6 +15,7 @@ $(document).ready(function(){
     $("a.new").click(function() {
     	newGame();
     	$("#guessList li").remove();
+    	$("#userGuess").val('');
     });
 
   	/*--- Getting user's guess when they click Guess button ---*/
